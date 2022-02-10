@@ -20,7 +20,12 @@ $(document).ready(function() {
                 })
                 
                 next_url = response.next
-
+                back_url = response.previous
+                if (back_url == null){
+                    $('#btn_back').hide()
+                } else {
+                    $('#btn_back').show()
+                }
                 $('.pokemodal').click(function(e){
                     e.preventDefault();
                     let new_url = ($(this).attr('url'))
@@ -59,17 +64,25 @@ $(document).ready(function() {
             }
         })
     }
+  
+    var back_url
     var next_url
-    requestApi('https://pokeapi.co/api/v2/pokemon/')
-    
+    requestApi('https://pokeapi.co/api/v2/pokemon/');
+
     function activeButton (){
         $('#btn').click(function(){
             $('#info').empty('.pokemon')
+            $('#pokeparagraph').remove()
             requestApi(next_url)
-        })
-    }
+        });
+
+        $('#btn_back').click(function(){
+            $('#info').empty('.pokemon')
+            $('#pokeparagraph').remove()
+            requestApi(back_url)
+        });
+    };
     activeButton()
-
-
+    
 
 })
